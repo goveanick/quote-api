@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quote API Client</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    #quote { margin-top: 20px; font-size: 1.2em; }
+    #author { margin-top: 10px; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h1>Random Quote</h1>
+  <button id="getQuote">Get Quote</button>
+
+  <div id="quote"></div>
+  <div id="author"></div>
+
+  <script>
+    const button = document.getElementById('getQuote');
+    const quoteDiv = document.getElementById('quote');
+    const authorDiv = document.getElementById('author');
+    const API_URL = window.location.hostname.includes('localhost') 
+    ? 'http://localhost:3000' 
+    : 'https://your-app-name.up.railway.app';
+
+    button.addEventListener('click', () => {
+      fetch(`${API_URL}/quote`, {
+        headers: {
+          'Authorization': 'Bearer 12345-abcde' // Your valid API key
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        quoteDiv.textContent = `"${data.quote}"`;
+        authorDiv.textContent = `— ${data.author}`;
+      })
+      .catch(err => {
+        quoteDiv.textContent = 'Error fetching quote!';
+        console.error(err);
+      });
+    });
+  </script>
+
+</body>
+</html>

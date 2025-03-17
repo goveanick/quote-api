@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = 3000;
-const validApiKeys = [
-    "12345-abcde",
-    "67890-fghij"
-  ];
+
 
 // Dummy list of quotes
 const quotes = [
@@ -14,6 +12,13 @@ const quotes = [
   { author: "Steve Jobs", quote: "Stay hungry, stay foolish." }
 ];
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+const validApiKeys = [
+    "12345-abcde",
+    "67890-fghij"
+  ];
+  
 // Middleware to check API key
 app.use((req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -30,7 +35,6 @@ app.use((req, res, next) => {
   
     next(); // Key is valid, proceed
   });
-
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the Quote API!');
