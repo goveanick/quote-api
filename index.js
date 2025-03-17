@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const PORT = 3000;
+const validApiKeys = [
+    "12345-abcde",
+    "67890-fghij"
+  ];
 
 // Dummy list of quotes
 const quotes = [
@@ -9,6 +13,23 @@ const quotes = [
   { author: "Confucius", quote: "It does not matter how slowly you go as long as you do not stop." },
   { author: "Steve Jobs", quote: "Stay hungry, stay foolish." }
 ];
+
+// Middleware to check API key
+app.use((req, res, next) => {
+    const authHeader = req.headers['authorization'];
+  
+    if (!authHeader) {
+      return res.status(401).json({ message: "Missing Authorization header" });
+    }
+  
+    const token = authHeader.split(' ')[1]; // Expect "Bearer <API_KEY>"
+  
+    if (!validApiKeys.includes(token)) {
+      return res.status(403).json({ message: "Invalid API key" });
+    }
+  
+    next(); // Key is valid, proceed
+  });
 
 // Root route
 app.get('/', (req, res) => {
