@@ -23,7 +23,7 @@
     const authorDiv = document.getElementById('author');
     const API_URL = window.location.hostname.includes('localhost') 
     ? 'http://localhost:3000' 
-    : 'https://quote-api-production-9e60.up.railway.app/';
+    : 'https://quote-api-production-9e60.up.railway.app';
 
     button.addEventListener('click', () => {
       fetch(`${API_URL}/quote`, {
